@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "hr-review"
+version = "0.1.0"
+description = "A proposion for salary review process"
+authors = ["Dorian <dorian.gloinec@protonmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.11.5"
+django = "^5.0.2"
+djangorestframework = "^3.14.0"
+django-cors-headers = "^4.3.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
