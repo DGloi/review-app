@@ -19,7 +19,7 @@ db_config = os.environ.get('DATABASE_CONFIG')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-with open('secrets/postgresdb_secret_key.json') as f:
+with open('../secrets/postgresdb_secret_key.json') as f:
     db_config = json.load(f)
 
 # Quick-start development settings - unsuitable for production
