@@ -1,5 +1,6 @@
 from django.db import models
-
+from djmoney.models.fields import MoneyField
+from djmoney.money import Money
 # Create your models here.
 
 class employee(models.Model):
@@ -12,6 +13,13 @@ class employee(models.Model):
     division = models.CharField(max_length=100)
     position = models.CharField(max_length=100)
     salary = models.DecimalField(max_digits=10, decimal_places=2)
+    currency = MoneyField(max_digits=14, decimal_places=2, default=Money(0, 'USD'))
+
+    SALARY_TIMEBASE_CHOICES = [
+        ('monthly', 'Monthly'),
+        ('yearly', 'Yearly'),
+    ]
+    salary_timebase = models.CharField(max_length=100, choices=SALARY_TIMEBASE_CHOICES, default='monthly')
     hire_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -26,6 +34,7 @@ class employee(models.Model):
 class rating(models.Model):
     id = models.AutoField(primary_key=True)
     rating = models.DecimalField(max_digits=2, decimal_places=0)
+    created_at = models.DateTimeField(auto_now_add=True)
     class Meta:
         db_table = 'rating'
         ordering = ['-created_at']
