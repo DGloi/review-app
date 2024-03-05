@@ -3,7 +3,7 @@ from djmoney.models.fields import MoneyField
 from djmoney.money import Money
 # Create your models here.
 
-class employee(models.Model):
+class Employee(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     email = models.EmailField()
@@ -13,7 +13,7 @@ class employee(models.Model):
     division = models.CharField(max_length=100)
     position = models.CharField(max_length=100)
     salary = models.DecimalField(max_digits=10, decimal_places=2)
-    currency = MoneyField(max_digits=14, decimal_places=2, default=Money(0, 'USD'))
+    currency = models.CharField(max_length=100, default='SEK')
 
     SALARY_TIMEBASE_CHOICES = [
         ('monthly', 'Monthly'),
@@ -31,7 +31,7 @@ class employee(models.Model):
     def __str__(self):
         return self.name
 
-class rating(models.Model):
+class Rating(models.Model):
     id = models.AutoField(primary_key=True)
     rating = models.DecimalField(max_digits=2, decimal_places=0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -42,9 +42,9 @@ class rating(models.Model):
     def __str__(self):
         return self.rating
     
-class increase_suggestion(models.Model):
+class IncreaseSuggestion(models.Model):
     id = models.AutoField(primary_key=True)
-    id_rating = models.ForeignKey(rating, on_delete=models.CASCADE)
+    id_rating = models.ForeignKey(Rating, on_delete=models.CASCADE)
     suggestion = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -53,7 +53,7 @@ class increase_suggestion(models.Model):
         db_table = 'increase_suggestion'
         ordering = ['-created_at']
 
-class market_salary(models.Model):
+class MarketSalary(models.Model):
     id = models.AutoField(primary_key=True)
     position = models.CharField(max_length=100)
     salary = models.DecimalField(max_digits=10, decimal_places=2)

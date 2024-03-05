@@ -1,18 +1,18 @@
 from django.contrib import admin
-from .models import employee, rating, increase_suggestion, market_salary
+from .models import Employee, Rating, IncreaseSuggestion, MarketSalary
 # Register your models here.
 
-class employeeAdmin(admin.ModelAdmin):
+class EmployeeAdmin(admin.ModelAdmin):
     pass
-admin.site.register(employee, employeeAdmin)
-class ratingAdmin(admin.ModelAdmin):
+admin.site.register(Employee, EmployeeAdmin)
+class RatingAdmin(admin.ModelAdmin):
     pass
-admin.site.register(rating, ratingAdmin)
+admin.site.register(Rating, RatingAdmin)
 
-class increase_suggestionAdmin(admin.ModelAdmin):
+class IncreaseSuggestionAdmin(admin.ModelAdmin):
     pass
-admin.site.register(increase_suggestion, increase_suggestionAdmin)
+admin.site.register(IncreaseSuggestion, IncreaseSuggestionAdmin)
 
 class market_salaryAdmin(admin.ModelAdmin):
     pass
-admin.site.register(market_salary, market_salaryAdmin)
+admin.site.register(MarketSalary, market_salaryAdmin)
