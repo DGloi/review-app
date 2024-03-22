@@ -2,6 +2,7 @@ import { getEmployeeTable } from "services/APIEmployee";
 import TablePagination from "utils/TablePagination";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/solid";
 import React, { useState, useCallback } from "react";
+import  exportToCSV  from "utils/csvExport";
 
 function EmployeeTable() {
   const [data, setData] = useState([]);
@@ -52,13 +53,38 @@ function EmployeeTable() {
     },
     []
   );
-
+  
+  const handleExportToCSV = async (columns) => {
+    try {
+      // Fetch all data from the API
+      const response = await getEmployeeTable();
+    
+      // Check if response is valid
+      if (Array.isArray(response)) {
+        // Exclude the "Action" column from the export
+        const filteredColumns = columns.filter(column => column.accessor !== "action");
+    
+        // Check if all objects in response array have the 'id' property defined
+        if (response.every(obj => obj.hasOwnProperty('id'))) {
+          exportToCSV(response, filteredColumns);
+        } else {
+          console.error("Some objects in data array do not have the 'id' property defined.");
+        }
+      } else {
+        console.error("Invalid response format from API:", response);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  
+  
+  
   const columns = React.useMemo(
     () => [
       {
-        Header: "#",
+        Header: "id",
         accessor: "id",
-        Cell: ({ row }) => `#${row.original.id}`,
         disableSortBy: true,
       },
       {
@@ -134,6 +160,10 @@ function EmployeeTable() {
         pageCount={pageCount}
         totalRow={totalRow}
       />
+      <div className="mb-4">
+        <br/>
+        <button onClick={() => handleExportToCSV(columns)} className="btn btn-primary">Export to CSV</button>
+      </div>
     </section>
   );
 }
