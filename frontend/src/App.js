@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { BrowserRouter as Router,Routes, Route } from 'react-router-dom';
 import EmployeeContent from 'components/maincontent/EmployeeContent';
@@ -6,6 +5,8 @@ import SalarySuggestion from 'components/maincontent/SalarySuggestion';
 import Overview from 'components/maincontent/Overview';
 import Header from 'components/Header';
 import Sidebar from 'components/Sidebar';
+
+import 'App.css';
 
 function App() {
   return (
@@ -29,5 +30,4 @@ function App() {
     </Router>
   );
 }
-
 export default App;

@@ -11,26 +11,7 @@ import {
     useTable,
   } from "react-table";
   
-  function exportToCSV(columns, data) {
-    const csvContent = [
-      columns.map((column) => column.Header).join(","),
-      ...data.map((row) =>
-        columns.map((column) => row.values[column.accessor]).join(",")
-      ),
-    ].join("\n");
-  
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const link = document.createElement("a");
-    if (link.download !== undefined) {
-      const url = URL.createObjectURL(blob);
-      link.setAttribute("href", url);
-      link.setAttribute("download", "table_data.csv");
-      link.style.visibility = "hidden";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  };
+  import "./TablePagination.css";
   
   function TablePagination({
     columns,
@@ -78,8 +59,7 @@ import {
         useSortBy,
         usePagination
       );
-      
-  
+       
       const GlobalFilter = ({
         preGlobalFilteredRows,
         globalFilter,
@@ -121,7 +101,6 @@ import {
         );
       };
       
-      
     React.useEffect(() => {
       let search = globalFilter === undefined ? "" : globalFilter;
       fetchData(pageSize, pageIndex, search, sortBy);
@@ -145,27 +124,25 @@ import {
     {headerGroup.headers.map((column) => (
       <th
         {...column.getHeaderProps(column.getSortByToggleProps())}
-      >
-        <div className="flex items-center">
-          <span>
-            {column.isSorted ? (
-              column.isSortedDesc ? (
-                <ArrowLongDownIcon className="h-4 w-4 mr-1" />
-              ) : (
-                <ArrowLongUpIcon className="h-4 w-4 mr-1" />
-              )
+      className="column-width">
+       <div className="header-content">
+        <span className="header-text">
+          {column.isSorted ? (
+            column.isSortedDesc ? (
+          <ArrowLongDownIcon className="table-icon" />
             ) : (
-              <FunnelIcon className="h-4 w-4 mr-1" />
-            )}
-          </span>
-          {column.render("Header")}
-        </div>
+          <ArrowLongUpIcon className="table-icon" />
+        )
+         ) : (
+          <FunnelIcon className="table-icon" />
+        )}
+         {column.render("Header")}
+       </span>
+      </div>
       </th>
     ))}
   </tr>
-))}
-
-                  
+))}                  
             </thead>
             <tbody {...getTableBodyProps()}>
               {page.map((row, i) => {
@@ -215,12 +192,6 @@ import {
                 </option>
               ))}
             </select>  
-            <button
-              className="btn btn-xs"
-              onClick={() => exportToCSV(columns, data)}
-            >
-                Export to CSV
-            </button>
           </div>
           <div className="mt-2">
             <button
