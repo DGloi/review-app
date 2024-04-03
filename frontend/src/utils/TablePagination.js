@@ -11,7 +11,7 @@ import {
     useTable,
   } from "react-table";
   
-  
+  import "./TablePagination.css";
   
   function TablePagination({
     columns,
@@ -101,7 +101,6 @@ import {
         );
       };
       
-      
     React.useEffect(() => {
       let search = globalFilter === undefined ? "" : globalFilter;
       fetchData(pageSize, pageIndex, search, sortBy);
@@ -125,21 +124,21 @@ import {
     {headerGroup.headers.map((column) => (
       <th
         {...column.getHeaderProps(column.getSortByToggleProps())}
-      >
-        <div className="flex items-center">
-          <span>
-            {column.isSorted ? (
-              column.isSortedDesc ? (
-                <ArrowLongDownIcon className="h-4 w-4 mr-1" />
-              ) : (
-                <ArrowLongUpIcon className="h-4 w-4 mr-1" />
-              )
+      className="column-width">
+       <div className="header-content">
+        <span className="header-text">
+          {column.isSorted ? (
+            column.isSortedDesc ? (
+          <ArrowLongDownIcon className="table-icon" />
             ) : (
-              <FunnelIcon className="h-4 w-4 mr-1" />
-            )}
-          </span>
-          {column.render("Header")}
-        </div>
+          <ArrowLongUpIcon className="table-icon" />
+        )
+         ) : (
+          <FunnelIcon className="table-icon" />
+        )}
+         {column.render("Header")}
+       </span>
+      </div>
       </th>
     ))}
   </tr>

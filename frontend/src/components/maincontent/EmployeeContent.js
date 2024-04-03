@@ -78,8 +78,6 @@ function EmployeeTable() {
     }
   };
   
-  
-  
   const columns = React.useMemo(
     () => [
       {

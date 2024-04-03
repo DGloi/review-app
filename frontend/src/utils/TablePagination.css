@@ -1,0 +1,20 @@
+.table-icon {
+    width: 16px; /* Adjust the width as needed */
+    height: 16px; /* Adjust the height as needed */
+    margin-right: 4px; /* Adjust the margin as needed */
+  }
+
+.header-content {
+    display: flex;
+    align-items: center;
+  }
+
+.header-text {
+    display: flex;
+    align-items: center;
+    min-width: 70px;
+  }
+
+.column-width {
+    max-width: 120px;
+  }
