@@ -40,10 +40,13 @@ body {
     border: 1px solid #ccc;
   }
   
-  /* Example component styles */
-  .example-component {
-    background-color: #f9f9f9;
-    padding: 10px;
-    border: 1px solid #ccc;
-  }
-  
+
+/* Add margin-bottom to create space between the header bar and the components */
+.col-md-9 {
+  margin-top: 20px; /* Increase or decrease as needed */
+}
+
+/* Add custom styles for the header bar */
+.navbar {
+  margin-bottom: 0; /* Remove any bottom margin to avoid the white line */
+}

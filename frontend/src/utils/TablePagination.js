@@ -11,8 +11,6 @@ import {
     useTable,
   } from "react-table";
   
-  import "./TablePagination.css";
-  
   function TablePagination({
     columns,
     data,

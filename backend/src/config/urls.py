@@ -21,5 +21,6 @@ from reviewdb.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('employee/', EmployeeView.as_view()),  # Assuming you want to access EmployeeView at /employee/
+    path('employee/', EmployeeView.as_view(), name='employee-list'),
+    path('employee/<int:id>/', EmployeeDetailView.as_view(), name='employee-detail'),
 ]
