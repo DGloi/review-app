@@ -23,5 +23,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('employee/', EmployeeView.as_view(), name='employee-list'),
     path('employee/<int:id>/', EmployeeDetailView.as_view(), name='employee-detail'),
-    path('execute_dynamic_query/', execute_dynamic_query, name='execute_dynamic_query'),
+    path('api/execute_dynamic_query/', execute_dynamic_query, name='execute_dynamic_query'),
+    path('api/dataset-list/', DatasetListView.as_view(), name='dataset_list'),
+    path('api/schema/<str:table_name>/', get_table_schema, name='get_table_schema'),
 ]

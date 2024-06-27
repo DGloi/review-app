@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import EmployeeContent from 'components/maincontent/EmployeeContent';
 import SalarySuggestion from 'components/maincontent/SalarySuggestion';
 import Overview from 'components/maincontent/Overview';
-import Reconciliation from 'components/maincontent/Reconciliation';
+import Reconciliation from 'components/maincontent/Reconciliation/Reconciliation';
 import Header from 'components/Header'; 
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
