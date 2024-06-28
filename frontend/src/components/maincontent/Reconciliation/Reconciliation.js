@@ -56,6 +56,7 @@ const Reconciliation = () => {
       setSchemaZone2([]);
       setJoinKey2('');
     }
+    setResults([]);  // Clear results when an item is removed
   };
 
   const fetchSchema = async (datasetName, setSchema) => {
@@ -74,6 +75,7 @@ const Reconciliation = () => {
       datasets: [droppedItemZone1, droppedItemZone2],
       joinKeys: [joinKey1, joinKey2]
     };
+    console.log("Sending query data:", queryData);  // Log data being sent
     try {
       const csrfToken = getCsrfToken();
       const response = await axios.post('http://localhost:8000/api/execute_dynamic_query/', queryData, {
@@ -81,6 +83,7 @@ const Reconciliation = () => {
           'X-CSRFToken': csrfToken
         }
       });
+      console.log("Query results:", response.data);  // Log the results
       setResults(response.data.data);
     } catch (error) {
       console.error('Error executing query:', error);
@@ -136,7 +139,9 @@ const Reconciliation = () => {
         </div>
       )}
       <button onClick={executeQuery}>Execute Query</button>
-      <ResultsTable data={results} />
+      {(droppedItemZone1 && droppedItemZone2 && results.length > 0) && (
+        <ResultsTable data={results} />
+      )}
     </div>
   );
 };

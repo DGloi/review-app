@@ -30,42 +30,53 @@ def execute_dynamic_query(request):
             query_data = json.loads(request.body)
             print("Received query data:", query_data)  # Log incoming data
             query = build_query(query_data)
+            print("Executing query:", query)  # Log the query
             with connection.cursor() as cursor:
                 cursor.execute(query)
                 rows = cursor.fetchall()
                 columns = [col[0] for col in cursor.description]
+            print("Query executed successfully, returning data.")
             return JsonResponse({'data': [dict(zip(columns, row)) for row in rows]})
         except json.JSONDecodeError as e:
+            print(f"JSON decode error: {e}")
             return HttpResponseBadRequest(f"Invalid JSON: {e}")
         except KeyError as e:
+            print(f"Key error: {e}")
             return HttpResponseBadRequest(f"Missing key: {e}")
         except DatabaseError as e:
+            print(f"Database error: {e}")
             return JsonResponse({'error': str(e)}, status=500)
         except Exception as e:
+            print(f"Unexpected error: {e}")
             return JsonResponse({'error': str(e)}, status=500)
     else:
         return HttpResponseNotAllowed(['POST'])
 
 def build_query(query_data):
-    datasets = query_data['datasets']
-    joinKeys = query_data['joinKeys']
-    
-    if len(datasets) != 2 or len(joinKeys) != 2:
-        raise ValueError("Two datasets and two join keys must be provided.")
+    try:
+        datasets = query_data['datasets']
+        joinKeys = query_data['joinKeys']
+        
+        if len(datasets) != 2 or len(joinKeys) != 2:
+            raise ValueError("Two datasets and two join keys must be provided.")
+        
+        table1 = datasets[0]['name']
+        table2 = datasets[1]['name']
+        joinKey1 = joinKeys[0]
+        joinKey2 = joinKeys[1]
 
-    table1 = datasets[0]['name']
-    table2 = datasets[1]['name']
-    joinKey1 = joinKeys[0]
-    joinKey2 = joinKeys[1]
+        query = f"""
+        SELECT * 
+        FROM {table1}
+        FULL JOIN {table2}
+        ON {table1}.{joinKey1} = {table2}.{joinKey2}
+        """
+        print(f"Built query: {query}")  # Log the built query
+        return query
+    except Exception as e:
+        print(f"Error in build_query: {e}")
+        raise
 
-    query = f"""
-    SELECT * 
-    FROM {table1}
-    JOIN {table2}
-    ON {table1}.{joinKey1} = {table2}.{joinKey2}
-    """
-    
-    return query
 @csrf_exempt
 def get_table_schema(request, table_name):
     with connection.cursor() as cursor:
