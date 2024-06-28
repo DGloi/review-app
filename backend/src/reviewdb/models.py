@@ -40,7 +40,7 @@ class Rating(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return self.rating
+        return str(self.rating)
     
 class IncreaseSuggestion(models.Model):
     id = models.AutoField(primary_key=True)
@@ -62,3 +62,15 @@ class MarketSalary(models.Model):
 
     def __str__(self):
         return self.suggestion
+    
+class DatasetList(models.Model):
+    id = models.AutoField(primary_key=True)
+    dataset_name = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'dataset_list'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.dataset_name

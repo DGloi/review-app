@@ -1,8 +1,10 @@
-import { getEmployeeTable } from "services/APIEmployee";
+import { getEmployeeTable, deleteEmployee } from "services/APIEmployee";
 import TablePagination from "utils/TablePagination";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/solid";
 import React, { useState, useCallback } from "react";
 import  exportToCSV  from "utils/csvExport";
+import './EmployeeContent.css';
+
 
 function EmployeeTable() {
   const [data, setData] = useState([]);
@@ -53,31 +55,48 @@ function EmployeeTable() {
     },
     []
   );
-  
-  const handleExportToCSV = async (columns) => {
+  const handleDelete = async (id, pageSize, pageIndex, search, order) => {
     try {
-      // Fetch all data from the API
-      const response = await getEmployeeTable();
-    
-      // Check if response is valid
-      if (Array.isArray(response)) {
-        // Exclude the "Action" column from the export
-        const filteredColumns = columns.filter(column => column.accessor !== "action");
-    
-        // Check if all objects in response array have the 'id' property defined
-        if (response.every(obj => obj.hasOwnProperty('id'))) {
-          exportToCSV(response, filteredColumns);
-        } else {
-          console.error("Some objects in data array do not have the 'id' property defined.");
-        }
-      } else {
-        console.error("Invalid response format from API:", response);
-      }
+      // Make the API call to delete the record with the given ID
+      await deleteEmployee(id, () => {
+      }, (error) => {
+        // Error callback
+        console.error("Error deleting record:", error);
+      });
+      
+      // After successful deletion, fetch updated data from the API
+      fetchData(pageSize, pageIndex, search, order);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error deleting record:", error);
     }
   };
+    ;
   
+const handleExportToCSV = async (columns) => {
+  try {
+    // Fetch all data from the API
+    const response = await getEmployeeTable({ page: 0, limit: totalRow });
+  
+    // Check if response is valid
+    if (Array.isArray(response)) {
+      // Exclude the "Action" column from the export
+      const filteredColumns = columns.filter(column => column.accessor !== "action");
+  
+      // Check if all objects in response array have the 'id' property defined
+      if (response.every(obj => obj.hasOwnProperty('id'))) {
+        exportToCSV(response, filteredColumns);
+      } else {
+        console.error("Some objects in data array do not have the 'id' property defined.");
+      }
+    } else {
+      console.error("Invalid response format from API:", response);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+
   const columns = React.useMemo(
     () => [
       {
@@ -131,18 +150,12 @@ function EmployeeTable() {
       },
       {
         Header: "Action",
-        accessor: ({ row }) => {
-          return (
-            <div className="flex gap-2">
-              <button className="btn btn-xs btn-info">
-                <PencilSquareIcon className="w-4 h-4" />
-              </button>
-              <button className="btn btn-xs btn-error">
-                <TrashIcon className="w-4 h-4" />
-              </button>
-            </div>
-          );
-        },
+        Cell: ({ row }) => (
+          <button onClick={() => handleDelete(row.original.id)} className="btn btn-xs btn-error">
+          <span className="sr-only"></span> {/* Screen reader only text */}
+          <TrashIcon className="w-4 h-4" />
+          </button>
+        ),
       },
     ],
     []
@@ -150,6 +163,7 @@ function EmployeeTable() {
 
   return (
     <section id="EmployeeTable">
+      <h1 className="table-title">Employee Table</h1> 
       <TablePagination
         columns={columns}
         data={data}

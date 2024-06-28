@@ -1,0 +1,50 @@
+  .btn-error {
+    padding: 0;
+    background-color: transparent;
+    border: none;
+  }
+  
+  .btn-error:hover {
+    background-color: transparent;
+  }
+  
+  .btn-error:focus {
+    outline: none;
+  }
+  
+  /* Adjust the size of the TrashIcon */
+  .btn-error .w-4, .btn-error .h-4 {
+    width: 16px;
+    height: 16px;
+  }
+#EmployeeTable {
+  overflow-x: auto; /* Horizontal scrollbar */
+}
+
+#EmployeeTable table {
+  width: 100%; /* Ensure the table fills its container */
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+#EmployeeTable th {
+  background-color: #f0f0f0; /* Optional: Set background color for headers */
+  padding: 8px; /* Optional: Adjust padding for headers */
+}
+/* EmployeeContent.css */
+
+#EmployeeTable .header-content {
+    display: flex;
+    align-items: center;
+    max-width: fit-content;
+  }
+  
+  #EmployeeTable .header-text {
+    display: flex ;
+    align-items: center;
+    margin-right: 16px;
+  }
+  #EmployeeTable .table-icon{
+    width: 16px; /* Adjust as needed */
+    height: 16px; /* Adjust as needed */
+    margin-right: 4px ;
+  }
